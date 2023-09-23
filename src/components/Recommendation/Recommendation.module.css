@@ -1,0 +1,22 @@
+.recommend {
+  height: 30%;
+}
+
+.recommend h1 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: lighter;
+  padding: 1rem;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card-container {
+  width: 30%;
+  height: 10rem;
+}

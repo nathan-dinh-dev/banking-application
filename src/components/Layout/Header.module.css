@@ -1,0 +1,50 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: azure;
+  color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  padding-right: 2%;
+  height: 5rem;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.nav {
+  display: flex;
+  height: 5rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.nav a {
+  text-decoration: none;
+  margin-left: 1rem;
+  color: rgb(71, 58, 40);
+  transition: 300ms;
+}
+
+.nav a:hover {
+  color: black;
+}
+
+.nav a::after {
+  content: "";
+  width: 0px;
+  height: 1px;
+  display: block;
+  background: black;
+  transition: 300ms;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
