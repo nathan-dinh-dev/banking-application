@@ -18,8 +18,8 @@ const LoginForm = () => {
         </div>
         <div className={styles.actions}>
           <button>Sign in</button>
-          <a href="">Forgot username/password &gt</a>
-          <a href="">Not enrolled? Sign up now &gt</a>
+          <a href="">Forgot username/password &gt;</a>
+          <a href="">Not enrolled? Sign up now &gt;</a>
         </div>
       </form>
     </Card>
