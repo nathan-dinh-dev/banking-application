@@ -7,10 +7,8 @@ const HomePage = () => {
   return (
     <AuthProvider>
       <main className={styles["flex-wrap"]}>
-        {/* <Header /> */}
         <LoginContainer />
         <Recommendation />
-        {/* <Footer /> */}
       </main>
     </AuthProvider>
   );
