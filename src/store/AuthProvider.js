@@ -5,10 +5,15 @@ const AuthProvider = (props) => {
   const [accounts, setAccounts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const signupHandler = (email, password) => {
+  const signupHandler = (firstName, lastName, email, password) => {
     setAccounts((prevState) => [
       ...prevState,
-      { email: email, password: password },
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      },
     ]);
   };
 

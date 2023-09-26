@@ -5,7 +5,7 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   onLogout: () => {},
   onLogin: (email, password) => {},
-  onSignup: (email, password) => {},
+  onSignup: (firstName, lastName, email, password) => {},
 });
 
 export default AuthContext;
