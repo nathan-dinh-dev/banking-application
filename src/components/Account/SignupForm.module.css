@@ -41,7 +41,7 @@
 
 .actions button {
   border: none;
-  background-color: #0b6efd;
+  background: #398100;
   width: 100%;
   color: #fff;
   font: inherit;
@@ -56,7 +56,7 @@
 }
 
 .actions button:hover {
-  background-color: #0550b9;
+  background: #2a5804;
 }
 
 .actions p {

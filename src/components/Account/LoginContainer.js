@@ -2,8 +2,16 @@ import { blue_bg } from "../../assets";
 import { enjoy_200 } from "../../assets";
 import styles from "./LoginContainer.module.css";
 import LoginForm from "./LoginForm";
+import { useState } from "react";
+import SignupForm from "./SignupForm";
 
 const LoginContainer = () => {
+  const [isSignup, setIsSignup] = useState(false);
+
+  const actionsHandler = (status) => {
+    setIsSignup(status);
+  };
+
   return (
     <div>
       <div className={styles.background}>
@@ -21,7 +29,11 @@ const LoginContainer = () => {
             </div>
           </div>
         </div>
-        <LoginForm />
+        {!isSignup ? (
+          <LoginForm onActions={actionsHandler} />
+        ) : (
+          <SignupForm onActions={actionsHandler} />
+        )}
       </main>
     </div>
   );
