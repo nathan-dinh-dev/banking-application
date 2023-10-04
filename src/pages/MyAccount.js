@@ -10,7 +10,7 @@ const MyAccount = () => {
   const ctx = useContext(AuthContext);
   const currentAccount = ctx.currentLogin;
   const [option, setOption] = useState("Deposit");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const optionsHandler = (event) => {
@@ -27,7 +27,7 @@ const MyAccount = () => {
 
   const closeModalHandler = () => {
     setIsOpenModal(false);
-    setAmount(0);
+    setAmount("");
   };
 
   const approveHandler = () => {
@@ -47,7 +47,7 @@ const MyAccount = () => {
       } else alert("Sorry, you don't have enough fund to make this operation!");
     }
     setIsOpenModal(false);
-    setAmount(0);
+    setAmount("");
   };
 
   const submitHandler = (event) => {
