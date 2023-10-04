@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AuthContext from "./auth-context";
-import { useNavigate } from "react-router-dom";
 
 const AuthProvider = (props) => {
-  // const navigate = useNavigate();
   const [currentLogin, setCurrentLogin] = useState({});
   const [accounts, setAccounts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,10 +19,6 @@ const AuthProvider = (props) => {
       },
     ]);
   };
-
-  // useEffect(() => {
-  //   if (isLoggedIn) navigate("/dashboard");
-  // }, [isLoggedIn]);
 
   const loginHandler = (email, password) => {
     console.log(accounts);
@@ -44,22 +38,16 @@ const AuthProvider = (props) => {
     setCurrentLogin({});
   };
 
-  const deposit = (amount) => {
-    setCurrentLogin((prevState) => {
-      return {
-        ...prevState,
-        money: parseInt(prevState.money) + parseInt(amount),
-      };
-    });
+  const deposit = (amount, activity) => {
+    currentLogin.money += parseInt(amount);
+    currentLogin.transaction = [activity, ...currentLogin.transaction];
+    setCurrentLogin(currentLogin);
   };
 
-  const withdrawal = (amount) => {
-    setCurrentLogin((prevState) => {
-      return {
-        ...prevState,
-        money: parseInt(prevState.money) - parseInt(amount),
-      };
-    });
+  const withdrawal = (amount, activity) => {
+    currentLogin.money -= parseInt(amount);
+    currentLogin.transaction = [activity, ...currentLogin.transaction];
+    setCurrentLogin(currentLogin);
   };
 
   const authContext = {

@@ -8,6 +8,7 @@ const AllAccounts = () => {
 
   return (
     <main className={styles["flex-wrap"]}>
+      <h4>Table of All Users' Accounts</h4>
       <table className={styles["styled-table"]}>
         <thead>
           <tr>

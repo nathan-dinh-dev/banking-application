@@ -1,7 +1,7 @@
 import styles from "./MyAccount.module.css";
 import Card from "../components/UI/Card";
 import AuthContext from "../store/auth-context";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../assets";
 import ConfirmModal from "../components/ConfirmModal/ConfirmModal";
@@ -12,7 +12,6 @@ const MyAccount = () => {
   const [option, setOption] = useState("Deposit");
   const [amount, setAmount] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [transactionHistory, setTransactionHistory] = useState([]);
 
   const optionsHandler = (event) => {
     setOption(event.target.value);
@@ -35,22 +34,16 @@ const MyAccount = () => {
     const today = new Date();
     console.log(today);
     if (option === "Deposit") {
-      ctx.onDeposit(amount);
-      setTransactionHistory((prevState) => {
-        return [
-          `Deposit $${amount} successfully on ${today.toLocaleDateString()} ${today.toLocaleTimeString()}`,
-          ...prevState,
-        ];
-      });
+      ctx.onDeposit(
+        amount,
+        `Deposit $${amount} successfully on ${today.toLocaleDateString()} ${today.toLocaleTimeString()}`
+      );
     } else if (option === "Withdrawal") {
       if (currentAccount.money >= amount) {
-        ctx.onWithdrawal(amount);
-        setTransactionHistory((prevState) => {
-          return [
-            `Withdrawal $${amount} successfully on ${today.toLocaleDateString()} ${today.toLocaleTimeString()}`,
-            ...prevState,
-          ];
-        });
+        ctx.onWithdrawal(
+          amount,
+          `Withdrawal $${amount} successfully on ${today.toLocaleDateString()} ${today.toLocaleTimeString()}`
+        );
       } else alert("Sorry, you don't have enough fund to make this operation!");
     }
     setIsOpenModal(false);
@@ -60,6 +53,21 @@ const MyAccount = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     setIsOpenModal(true);
+  };
+
+  const transactionContent = () => {
+    if (JSON.stringify(currentAccount) !== "{}") {
+      if (currentAccount.transaction.length === 0)
+        return <h6>No transaction found.</h6>;
+      else
+        return (
+          <ul className={styles.list}>
+            {currentAccount.transaction.map((item) => {
+              return <li key={item}>{item}</li>;
+            })}
+          </ul>
+        );
+    } else return "";
   };
 
   const accountContent = (
@@ -116,17 +124,7 @@ const MyAccount = () => {
           <div className={styles.transaction}>
             <h3>Transaction History</h3>
           </div>
-          <div>
-            {transactionHistory.length !== 0 ? (
-              <ul className={styles.list}>
-                {transactionHistory.map((item) => {
-                  return <li key={item}>{item}</li>;
-                })}
-              </ul>
-            ) : (
-              <h6>No transaction found.</h6>
-            )}
-          </div>
+          <div>{transactionContent()}</div>
         </Card>
       </main>
     </>

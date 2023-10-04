@@ -52,8 +52,17 @@ const SignupForm = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    ctx.onSignup(firstName, lastName, emailState.value, passwordState.value);
-    props.onActions(false);
+    let isValidEmail = true;
+    for (let i = 0; i < ctx.users.length; i++) {
+      if (emailState.value === ctx.users[i].email) {
+        isValidEmail = false;
+        break;
+      }
+    }
+    if (isValidEmail) {
+      ctx.onSignup(firstName, lastName, emailState.value, passwordState.value);
+      props.onActions(false);
+    } else alert("Email is already registered. Please try different email. ");
   };
 
   return (

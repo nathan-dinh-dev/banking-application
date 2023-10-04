@@ -7,8 +7,8 @@ const AuthContext = React.createContext({
   onLogout: () => {},
   onLogin: (email, password) => {},
   onSignup: (firstName, lastName, email, password) => {},
-  onDeposit: (amount) => {},
-  onWithdrawal: (amount) => {},
+  onDeposit: (amount, activity) => {},
+  onWithdrawal: (amount, activity) => {},
 });
 
 export default AuthContext;

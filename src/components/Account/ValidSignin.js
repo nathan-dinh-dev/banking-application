@@ -2,7 +2,7 @@ import Card from "../UI/Card";
 import styles from "./ValidSignin.module.css";
 import AuthContext from "../../store/auth-context";
 import { useContext, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ValidSignin = () => {
   const ctx = useContext(AuthContext);
