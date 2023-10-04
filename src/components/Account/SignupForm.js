@@ -1,31 +1,57 @@
 import Card from "../UI/Card";
 import styles from "./SignupForm.module.css";
-import { useContext, useReducer, useState } from "react";
+import { useContext, useReducer, useState, useEffect } from "react";
 import AuthContext from "../../store/auth-context";
 
-const defaultValue = { value: "" };
 const emailReducer = (state, action) => {
-  if (action.type === "USER_INPUT") return { value: action.val };
+  if (action.type === "USER_INPUT")
+    return { value: action.val, isValid: action.val.includes("@") };
 
-  if (action.type === "INPUT_BLUR") return { value: state.value };
+  if (action.type === "INPUT_BLUR")
+    return { value: state.value, isValid: state.value.includes("@") };
 
-  return { value: "" };
+  return { value: "", isValid: false };
 };
 
 const passwordReducer = (state, action) => {
-  if (action.type === "USER_INPUT") return { value: action.val };
+  if (action.type === "USER_INPUT")
+    return { value: action.val, isValid: action.val.trim().length >= 8 };
+
+  if (action.type === "INPUT_BLUR")
+    return { value: state.value, isValid: state.value.trim().length >= 8 };
 
   return { value: "", isValid: false };
 };
 
 const SignupForm = (props) => {
+  const [formIsValid, setFormIsValid] = useState(false);
+
   const ctx = useContext(AuthContext);
 
-  const [emailState, dispatchEmail] = useReducer(emailReducer, defaultValue);
-  const [passwordState, dispatchPassword] = useReducer(
-    passwordReducer,
-    defaultValue
-  );
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: "",
+    isValid: null,
+  });
+
+  const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
+    value: "",
+    isValid: null,
+  });
+
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
+  useEffect(() => {
+    const myTimeOut = setTimeout(() => {
+      console.log("In Effect");
+      setFormIsValid(emailIsValid && passwordIsValid);
+    }, 500);
+
+    return () => {
+      console.log("Clean up");
+      clearTimeout(myTimeOut);
+    };
+  }, [emailIsValid, passwordIsValid]);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -40,6 +66,14 @@ const SignupForm = (props) => {
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
+  };
+
+  const validateEmailHandler = () => {
+    dispatchEmail({ type: "INPUT_BLUR" });
+  };
+
+  const validatePasswordHandler = () => {
+    dispatchPassword({ type: "INPUT_BLUR" });
   };
 
   const firstNameHandler = (event) => {
@@ -85,26 +119,38 @@ const SignupForm = (props) => {
             required
           />
         </div>
-        <div className={styles.input}>
+        <div
+          className={`${styles.input} ${
+            emailState.isValid === false ? styles.invalid : ""
+          }`}
+        >
           <input
             type="email"
             placeholder="Username@email.com"
             value={emailState.value}
             onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
             required
           />
         </div>
-        <div className={styles.input}>
+        <div
+          className={`${styles.input} ${
+            passwordState.isValid === false ? styles.invalid : ""
+          }`}
+        >
           <input
             type="password"
             placeholder="Password"
             value={passwordState.value}
             onChange={passwordChangeHandler}
+            onBlur={validatePasswordHandler}
             required
           />
         </div>
         <div className={styles.actions}>
-          <button type="submit">Sign up</button>
+          <button type="submit" disabled={!formIsValid}>
+            Sign up
+          </button>
           <p>Forgot username/password &gt;</p>
           <p onClick={actionsHandler}>Have an account? Log in now &gt;</p>
         </div>

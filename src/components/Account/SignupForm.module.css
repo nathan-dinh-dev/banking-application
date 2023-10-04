@@ -41,9 +41,7 @@
 
 .actions button {
   border: none;
-  background: #398100;
   width: 100%;
-  color: #fff;
   font: inherit;
   font-size: 1rem;
   font-weight: 600;
@@ -55,7 +53,12 @@
   transition: background-color 0.4s ease;
 }
 
-.actions button:hover {
+.actions button:enabled {
+  background: #398100;
+  color: #fff;
+}
+
+.actions button:enabled:hover {
   background: #2a5804;
 }
 
@@ -75,6 +78,11 @@
 .actions p:hover {
   outline: 0;
   text-decoration: 1px underline;
+}
+
+.input.invalid input {
+  border-color: red;
+  background: #fbdada;
 }
 
 @keyframes fadeInAnimation {
