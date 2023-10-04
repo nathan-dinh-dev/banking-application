@@ -30,6 +30,7 @@
   margin-left: 1rem;
   color: rgb(71, 58, 40);
   transition: 300ms;
+  width: auto;
 }
 
 .nav a:hover {
@@ -41,10 +42,15 @@
   width: 0px;
   height: 1px;
   display: block;
-  background: black;
+  background: rgb(68, 60, 60);
   transition: 300ms;
 }
 
 .nav a:hover::after {
   width: 100%;
+}
+
+.nav a.active {
+  color: rgb(0, 0, 0);
+  text-decoration: underline;
 }

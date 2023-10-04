@@ -3,7 +3,7 @@ import SocialMedia from "./SocialMedia";
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <SocialMedia />
     </footer>
   );

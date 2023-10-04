@@ -1,0 +1,7 @@
+.footer {
+  position: absolute;
+  top: calc(100% - 15vh);
+  left: 0;
+  height: 15vh;
+  width: 100%;
+}

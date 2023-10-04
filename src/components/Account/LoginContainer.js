@@ -2,15 +2,24 @@ import { blue_bg } from "../../assets";
 import { enjoy_200 } from "../../assets";
 import styles from "./LoginContainer.module.css";
 import LoginForm from "./LoginForm";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SignupForm from "./SignupForm";
+import AuthContext from "../../store/auth-context";
+import ValidSignin from "./ValidSignin";
 
 const LoginContainer = () => {
   const [isSignup, setIsSignup] = useState(false);
+  const ctx = useContext(AuthContext);
 
   const actionsHandler = (status) => {
     setIsSignup(status);
   };
+
+  const loginCard = !isSignup ? (
+    <LoginForm onActions={actionsHandler} />
+  ) : (
+    <SignupForm onActions={actionsHandler} />
+  );
 
   return (
     <div>
@@ -29,11 +38,7 @@ const LoginContainer = () => {
             </div>
           </div>
         </div>
-        {!isSignup ? (
-          <LoginForm onActions={actionsHandler} />
-        ) : (
-          <SignupForm onActions={actionsHandler} />
-        )}
+        {ctx.isLoggedIn ? <ValidSignin /> : loginCard}
       </main>
     </div>
   );

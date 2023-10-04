@@ -66,12 +66,14 @@ const SignupForm = (props) => {
             placeholder="First Name"
             value={firstName}
             onChange={firstNameHandler}
+            required
           />
           <input
             type="text"
             placeholder="Last Name"
             value={lastName}
             onChange={lastNameHandler}
+            required
           />
         </div>
         <div className={styles.input}>
@@ -80,6 +82,7 @@ const SignupForm = (props) => {
             placeholder="Username@email.com"
             value={emailState.value}
             onChange={emailChangeHandler}
+            required
           />
         </div>
         <div className={styles.input}>
@@ -88,6 +91,7 @@ const SignupForm = (props) => {
             placeholder="Password"
             value={passwordState.value}
             onChange={passwordChangeHandler}
+            required
           />
         </div>
         <div className={styles.actions}>

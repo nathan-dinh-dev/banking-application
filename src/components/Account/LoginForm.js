@@ -36,6 +36,7 @@ const LoginForm = (props) => {
             placeholder="Username@email.com"
             onChange={emailInputHandler}
             value={email}
+            required
           />
         </div>
         <div className={styles.input}>
@@ -44,6 +45,7 @@ const LoginForm = (props) => {
             placeholder="Password"
             onChange={passwordInputHandler}
             value={password}
+            required
           />
         </div>
         <div className={styles.checkbox}>

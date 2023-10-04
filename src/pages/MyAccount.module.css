@@ -1,0 +1,95 @@
+.flex-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  height: 80vh;
+  width: 100%;
+}
+
+.options select {
+  margin-left: 0.5rem;
+}
+
+.actions button {
+  border: none;
+  background: #398100;
+  width: 100%;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 0.3rem 0;
+  margin: 1rem 0 5px 0;
+  overflow-x: auto;
+  height: auto;
+  transition: background-color 0.4s ease;
+}
+
+.actions button:hover {
+  background: #2a5804;
+}
+
+.actions button.deposit {
+  background-color: #0b6efd;
+}
+
+.actions button.deposit:hover {
+  background-color: #0550b9;
+}
+
+#logout {
+  width: 32px;
+}
+
+.welcome button {
+  position: relative;
+  top: -100px;
+  left: 415px;
+  background: none;
+  border: none;
+  margin: 0;
+}
+
+.amount label {
+  margin-right: 8px;
+}
+
+.amount input {
+  text-align: center;
+  font-size: 1rem;
+  color: #414042;
+  line-height: 1.25rem;
+  padding: 5px;
+  margin: 4px 0;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.amount input:focus {
+  outline: none;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem;
+}
+
+.list li {
+  margin: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 2px 8px #ccc;
+}
+
+.transaction-container {
+  height: 220px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.transaction {
+  text-align: center;
+}
