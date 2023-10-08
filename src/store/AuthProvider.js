@@ -15,7 +15,6 @@ const AuthProvider = (props) => {
       })
       .then((data) => {
         const accountsFetched = data.data;
-        console.log(accountsFetched[0].attributes.transaction);
         setAccounts(accountsFetched);
       });
   }, [triggerFetched]);

@@ -7,14 +7,8 @@ import AllAccounts from "./pages/AllAccounts";
 import "./App.css";
 import AuthProvider from "./store/AuthProvider";
 
-// const router = createBrowserRouter([
-//   { path: "/", element: <HomePage /> },
-//   { path: "/dashboard", element: <Dashboard /> },
-// ]);
-
 function App() {
   return (
-    // <RouterProvider router={router} />
     <Router>
       <AuthProvider>
         <Header />
