@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  strapi-db:
+    build: ./strapi-db
+    container_name: strapi-banking-container
+    ports:
+      - "1337:1337"
+
+  banking-app:
+    build: ./banking-app
+    container_name: banking-app-container
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+# stdin_open and tty need to be true to run react application without crashing
