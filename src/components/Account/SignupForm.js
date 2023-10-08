@@ -88,7 +88,7 @@ const SignupForm = (props) => {
     event.preventDefault();
     let isValidEmail = true;
     for (let i = 0; i < ctx.users.length; i++) {
-      if (emailState.value === ctx.users[i].email) {
+      if (emailState.value === ctx.users[i].attributes.email) {
         isValidEmail = false;
         break;
       }

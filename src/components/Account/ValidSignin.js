@@ -26,7 +26,7 @@ const ValidSignin = () => {
 
   return (
     <Card className={styles.card}>
-      <h1>Hi {ctx.currentLogin.firstName},</h1>
+      <h1>Hi {ctx.currentLogin.attributes.firstName},</h1>
       <h5>What would you like to do today?</h5>
       <div className={styles.actions}>
         <button onClick={navigateHandler}>Go to account</button>

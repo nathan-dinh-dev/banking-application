@@ -21,13 +21,14 @@ const AllAccounts = () => {
         </thead>
         <tbody>
           {users.map((user) => {
+            const { attributes } = user;
             return (
               <tr key={user}>
-                <td>{`${user.firstName} ${user.lastName}`}</td>
+                <td>{`${attributes.firstName} ${attributes.lastName}`}</td>
                 <td>Checking</td>
-                <td>{user.email}</td>
-                <td>{user.password}</td>
-                <td>{`$${user.money}`}</td>
+                <td>{attributes.email}</td>
+                <td>{attributes.password}</td>
+                <td>{`$${attributes.balance}`}</td>
               </tr>
             );
           })}

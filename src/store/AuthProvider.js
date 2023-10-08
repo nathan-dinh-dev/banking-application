@@ -1,36 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthContext from "./auth-context";
 
 const AuthProvider = (props) => {
   const [currentLogin, setCurrentLogin] = useState({});
   const [accounts, setAccounts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [triggerFetched, setTriggerFetched] = useState(false);
+
+  useEffect(() => {
+    console.log("use effect ran");
+    fetch("http://localhost:1337/api/accounts")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const accountsFetched = data.data;
+        console.log(accountsFetched[0].attributes.transaction);
+        setAccounts(accountsFetched);
+      });
+  }, [triggerFetched]);
 
   const signupHandler = (firstName, lastName, email, password) => {
-    setAccounts((prevState) => [
-      ...prevState,
-      {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        money: 0,
-        transaction: [],
-      },
-    ]);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          balance: 0,
+          transaction: [],
+        },
+      }),
+    };
+
+    fetch("http://localhost:1337/api/accounts/", requestOptions)
+      .then((res) => res.json())
+      .then((res) => {
+        setTriggerFetched((prevState) => !prevState);
+      });
   };
 
   const loginHandler = (email, password) => {
-    console.log(accounts);
-    if (accounts.length === 0) alert("Account not found!");
+    let isFound = false;
+    if (accounts.length === 0) isFound = false;
 
     for (let i = 0; i < accounts.length; i++) {
-      if (accounts[i].email === email && accounts[i].password === password) {
+      if (
+        accounts[i].attributes.email === email &&
+        accounts[i].attributes.password === password
+      ) {
         setIsLoggedIn(true);
         setCurrentLogin(accounts[i]);
+        isFound = true;
         break;
       }
     }
+
+    if (!isFound) alert("Account not found!");
   };
 
   const logoutHandler = () => {
@@ -39,15 +68,51 @@ const AuthProvider = (props) => {
   };
 
   const deposit = (amount, activity) => {
-    currentLogin.money += parseInt(amount);
-    currentLogin.transaction = [activity, ...currentLogin.transaction];
-    setCurrentLogin(currentLogin);
+    const newBalance = currentLogin.attributes.balance + parseInt(amount);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          balance: newBalance,
+          transaction: [activity, ...currentLogin.attributes.transaction],
+        },
+      }),
+    };
+
+    fetch(
+      `http://localhost:1337/api/accounts/${currentLogin.id}`,
+      requestOptions
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentLogin(data.data);
+        setTriggerFetched((prevState) => !prevState);
+      });
   };
 
   const withdrawal = (amount, activity) => {
-    currentLogin.money -= parseInt(amount);
-    currentLogin.transaction = [activity, ...currentLogin.transaction];
-    setCurrentLogin(currentLogin);
+    const newBalance = currentLogin.attributes.balance - parseInt(amount);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          balance: newBalance,
+          transaction: [activity, ...currentLogin.attributes.transaction],
+        },
+      }),
+    };
+
+    fetch(
+      `http://localhost:1337/api/accounts/${currentLogin.id}`,
+      requestOptions
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentLogin(data.data);
+        setTriggerFetched((prevState) => !prevState);
+      });
   };
 
   const authContext = {

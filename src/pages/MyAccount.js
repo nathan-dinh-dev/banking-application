@@ -10,7 +10,7 @@ const MyAccount = () => {
   const ctx = useContext(AuthContext);
   const currentAccount = ctx.currentLogin;
   const [option, setOption] = useState("Deposit");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const optionsHandler = (event) => {
@@ -27,7 +27,7 @@ const MyAccount = () => {
 
   const closeModalHandler = () => {
     setIsOpenModal(false);
-    setAmount("");
+    setAmount(0);
   };
 
   const approveHandler = () => {
@@ -39,7 +39,7 @@ const MyAccount = () => {
         `Deposit $${amount} successfully on ${today.toLocaleDateString()} ${today.toLocaleTimeString()}`
       );
     } else if (option === "Withdrawal") {
-      if (currentAccount.money >= amount) {
+      if (currentAccount.attributes.balance >= amount) {
         ctx.onWithdrawal(
           amount,
           `Withdrawal $${amount} successfully on ${today.toLocaleDateString()} ${today.toLocaleTimeString()}`
@@ -47,7 +47,7 @@ const MyAccount = () => {
       } else alert("Sorry, you don't have enough fund to make this operation!");
     }
     setIsOpenModal(false);
-    setAmount("");
+    setAmount(0);
   };
 
   const submitHandler = (event) => {
@@ -56,17 +56,18 @@ const MyAccount = () => {
   };
 
   const transactionContent = () => {
+    let transactionArr = [...currentAccount.attributes.transaction];
     if (JSON.stringify(currentAccount) !== "{}") {
-      if (currentAccount.transaction.length === 0)
-        return <h6>No transaction found.</h6>;
-      else
+      if (transactionArr.length === 0) return <h6>No transaction found.</h6>;
+      else {
         return (
           <ul className={styles.list}>
-            {currentAccount.transaction.map((item) => {
+            {transactionArr.map((item) => {
               return <li key={item}>{item}</li>;
             })}
           </ul>
         );
+      }
     } else return "";
   };
 
@@ -80,53 +81,57 @@ const MyAccount = () => {
           option={option}
         />
       )}
-      <main className={styles["flex-wrap"]}>
-        <Card className={styles.container}>
-          <form onSubmit={submitHandler}>
-            <div className={styles.welcome}>
-              <h1>Hi {currentAccount.firstName}</h1>
-              <h2>Available balance: ${currentAccount.money}</h2>
-              <button type="button" onClick={logoutHandler}>
-                <img src={logout} alt="Log out gif" id={styles.logout} />
-              </button>
+      {JSON.stringify(currentAccount) !== "{}" ? (
+        <main className={styles["flex-wrap"]}>
+          <Card className={styles.container}>
+            <form onSubmit={submitHandler}>
+              <div className={styles.welcome}>
+                <h1>Hi {currentAccount.attributes.firstName}</h1>
+                <h2>Available balance: ${currentAccount.attributes.balance}</h2>
+                <button type="button" onClick={logoutHandler}>
+                  <img src={logout} alt="Log out gif" id={styles.logout} />
+                </button>
+              </div>
+              <div className={styles.options}>
+                <label for="options">
+                  Would you like to <b>deposit</b> or <b>withdrawal</b> money?
+                </label>
+                <select name="options" id="options" onChange={optionsHandler}>
+                  <option value="Deposit" selected>
+                    Deposit
+                  </option>
+                  <option value="Withdrawal">Withdrawal</option>
+                </select>
+              </div>
+              <div className={styles.amount}>
+                <label for="amount">Amount: </label>
+                <input
+                  id="amount"
+                  type="number"
+                  onChange={amountHandler}
+                  min="0"
+                  max="5000"
+                  value={amount}
+                  require
+                />
+              </div>
+              <div className={styles.actions}>
+                <button className={option === "Deposit" ? styles.deposit : ""}>
+                  {option}
+                </button>
+              </div>
+            </form>
+          </Card>
+          <Card className={styles["transaction-container"]}>
+            <div className={styles.transaction}>
+              <h3>Transaction History</h3>
             </div>
-            <div className={styles.options}>
-              <label for="options">
-                Would you like to <b>deposit</b> or <b>withdrawal</b> money?
-              </label>
-              <select name="options" id="options" onChange={optionsHandler}>
-                <option value="Deposit" selected>
-                  Deposit
-                </option>
-                <option value="Withdrawal">Withdrawal</option>
-              </select>
-            </div>
-            <div className={styles.amount}>
-              <label for="amount">Amount: </label>
-              <input
-                id="amount"
-                type="number"
-                onChange={amountHandler}
-                min="0"
-                max="5000"
-                value={amount}
-                require
-              />
-            </div>
-            <div className={styles.actions}>
-              <button className={option === "Deposit" ? styles.deposit : ""}>
-                {option}
-              </button>
-            </div>
-          </form>
-        </Card>
-        <Card className={styles["transaction-container"]}>
-          <div className={styles.transaction}>
-            <h3>Transaction History</h3>
-          </div>
-          <div>{transactionContent()}</div>
-        </Card>
-      </main>
+            <div>{transactionContent()}</div>
+          </Card>
+        </main>
+      ) : (
+        ""
+      )}
     </>
   );
 
